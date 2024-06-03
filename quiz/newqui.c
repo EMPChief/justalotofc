@@ -2,27 +2,23 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define NUM_QUIZ_QUESTIONS 15
-
-void shuffle(int *array, int array_size);
-
 // Define a struct to hold a quiz question and its answer options
-typedef struct
-{
+typedef struct {
     char *question;
     char *answer_options[4];
     int correct_answer_index;
 } QuizQuestion;
 
-int main()
-{
+void shuffle(int *array, int array_size);
+
+int main() {
     int user_input, user_answer;
     int user_score = 0;
 
     srand(time(NULL));
 
     // Define an array of QuizQuestion structs
-    QuizQuestion quiz_questions[NUM_QUIZ_QUESTIONS] = {
+    QuizQuestion quiz_questions[] = {
         {"What is the capital of France?", {"1. Paris", "2. London", "3. Berlin", "4. Rome"}, 0},
         {"What is the capital of Germany?", {"1. Paris", "2. London", "3. Berlin", "4. Rome"}, 2},
         {"What is the capital of Italy?", {"1. Paris", "2. London", "3. Berlin", "4. Rome"}, 3},
@@ -37,17 +33,20 @@ int main()
         {"Who wrote 'To Kill a Mockingbird'?", {"1. Harper Lee", "2. J.K. Rowling", "3. Ernest Hemingway", "4. Mark Twain"}, 0},
         {"What is the largest mammal in the world?", {"1. Elephant", "2. Blue Whale", "3. Giraffe", "4. Great White Shark"}, 1},
         {"What is the smallest prime number?", {"1. 0", "2. 1", "3. 2", "4. 3"}, 2},
-        {"Which element has the atomic number 1?", {"1. Hydrogen", "2. Helium", "3. Oxygen", "4. Carbon"}, 0}};
+        {"Which element has the atomic number 1?", {"1. Hydrogen", "2. Helium", "3. Oxygen", "4. Carbon"}, 0}
+    };
+
+    // Calculate the number of quiz questions
+    int num_quiz_questions = sizeof(quiz_questions) / sizeof(quiz_questions[0]);
 
     // Array to hold the order of questions
-    int question_order[NUM_QUIZ_QUESTIONS];
-    for (int question_index = 0; question_index < NUM_QUIZ_QUESTIONS; question_index++)
-    {
+    int question_order[num_quiz_questions];
+    for (int question_index = 0; question_index < num_quiz_questions; question_index++) {
         question_order[question_index] = question_index;
     }
 
     // Shuffle the order of questions
-    shuffle(question_order, NUM_QUIZ_QUESTIONS);
+    shuffle(question_order, num_quiz_questions);
 
     // Welcome message
     printf("Welcome to my quiz program\n");
@@ -56,46 +55,35 @@ int main()
 
     // Get user input
     scanf("%d", &user_input);
-    if (user_input == 7)
-    {
+    if (user_input == 7) {
         printf("Let's begin\n");
-    }
-    else if (user_input == 0)
-    {
+    } else if (user_input == 0) {
         printf("Thanks for playing\n");
         return 0;
-    }
-    else
-    {
+    } else {
         printf("Invalid input\n");
         return 1;
     }
 
     // Iterate through each question
-    for (int question_index = 0; question_index < NUM_QUIZ_QUESTIONS; question_index++)
-    {
+    for (int question_index = 0; question_index < num_quiz_questions; question_index++) {
         int current_question_index = question_order[question_index];
         printf("%s\n", quiz_questions[current_question_index].question);
         // Display answer options
-        for (int option_index = 0; option_index < 4; option_index++)
-        {
+        for (int option_index = 0; option_index < 4; option_index++) {
             printf("%s\n", quiz_questions[current_question_index].answer_options[option_index]);
         }
         // Get user answer
         scanf("%d", &user_answer);
         // Check if answer is correct
-        if (user_answer < 1 || user_answer > 4)
-        {
+        if (user_answer < 1 || user_answer > 4) {
             printf("Invalid answer. Please enter a number between 1 and 4.\n");
             continue;
         }
-        if (user_answer - 1 == quiz_questions[current_question_index].correct_answer_index)
-        {
+        if (user_answer - 1 == quiz_questions[current_question_index].correct_answer_index) {
             printf("Correct, your answer is right: %s\n", quiz_questions[current_question_index].answer_options[user_answer - 1]);
             user_score += 1;
-        }
-        else
-        {
+        } else {
             int correct_answer_index = quiz_questions[current_question_index].correct_answer_index;
             printf("Wrong, the correct answer is: %s\n", quiz_questions[current_question_index].answer_options[correct_answer_index]);
         }
@@ -111,12 +99,9 @@ int main()
 }
 
 // Function to shuffle an array
-void shuffle(int *array, int array_size)
-{
-    if (array_size > 1)
-    {
-        for (int array_index = 0; array_index < array_size - 1; array_index++)
-        {
+void shuffle(int *array, int array_size) {
+    if (array_size > 1) {
+        for (int array_index = 0; array_index < array_size - 1; array_index++) {
             int random_index = array_index + rand() / (RAND_MAX / (array_size - array_index) + 1);
             int temp_value = array[array_index];
             array[array_index] = array[random_index];
