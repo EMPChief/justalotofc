@@ -33,7 +33,7 @@ int main()
         {"What was the first widely-used open-source database?", {"MySQL", "PostgreSQL", "MongoDB", "SQLite"}, 0},
         {"What was the first electronic database management system?", {"IDS", "IMS", "Oracle", "Ingres"}, 0},
         {"What is the name of the very first operating system?", {"GM-NAA I/O", "Windows", "Linux", "MacOS"}, 0},
-        {"What is the name of the very first programming language?", {"Ruby", "Java", "Python", "C"}, 3},
+        {"What is the name of the very first programming language?", {"C", "Java", "Python", "Plankalkul"}, 3},
         {"Which planet is known as the Red Planet?", {"Earth", "Mars", "Jupiter", "Saturn"}, 1},
         {"What is the chemical symbol for water?", {"O2", "H2O", "CO2", "NaCl"}, 1},
         {"Who wrote 'To Kill a Mockingbird'?", {"Harper Lee", "J.K. Rowling", "Ernest Hemingway", "Mark Twain"}, 0},
