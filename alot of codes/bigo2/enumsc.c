@@ -1,7 +1,16 @@
 #include <stdio.h>
 
 // Definerer en enum for dager i uken
-enum Day {Monday = 1, Tuesday = 2, Wednesday = 3, Thursday = 4, Friday = 5, Saturday = 6, Sunday = 7};
+enum Day
+{
+    Monday = 1,
+    Tuesday = 2,
+    Wednesday = 3,
+    Thursday = 4,
+    Friday = 5,
+    Saturday = 6,
+    Sunday = 7
+};
 
 // Funksjonsprototyper
 enum Day addDays(enum Day currentDay, int daysToAdd);
@@ -9,10 +18,11 @@ int daysUntilWeekend(enum Day currentDay);
 
 int main()
 {
-    // enum = en brukerdefinert type av navngitte heltallsidentifikatorer
-    //        hjelper med å gjøre et program mer lesbart
+    // enum = a user defined type of named integer identifiers
+    //               helps to make a program more readable
+
     enum Day today = Saturday;
-    
+
     printf("Today is %d\n", today);
 
     if (today == Sunday || today == Saturday)
