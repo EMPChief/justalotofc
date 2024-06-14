@@ -40,7 +40,7 @@ int main()
         }
 
         numberOfGuesses++;
-        
+
         if (numberOfGuesses >= maxAttempts)
         {
             printf("You've used all %d attempts. The correct answer was %d.\n", maxAttempts, correctAnswer);
