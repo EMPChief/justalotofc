@@ -9,21 +9,21 @@ int rightShift(int a, int shiftBy);
 
 int main()
 {
-    // BITWISE OPERATORS = spesielle operatører brukt i bitnivåprogrammering
-    // Bitvise operasjoner tillater manipulering av individuelle biter i en variabel.
-    // Dette kan være nyttig i en rekke situasjoner, inkludert:
-    // - Effektiv lagring og manipulering av flagg
-    // - Kryptering og dekryptering av data
-    // - Optimalisering av ytelse i lavnivåprogrammering og innebygde systemer
-    // - Implementering av maskinvarekommunikasjon og protokoller
+    // BITWISE OPERATORS = special operators used in bit-level programming
+    // Bitwise operations allow manipulation of individual bits in a variable.
+    // This can be useful in a variety of situations, including:
+    // - Efficient storage and manipulation of flags
+    // - Encryption and decryption of data
+    // - Performance optimization in low-level programming and embedded systems
+    // - Implementation of hardware communication and protocols
 
     // & = AND
     // | = OR
     // ^ = XOR
-    // <<  venstre skift
-    // >>  høyre skift
-    int x = 9;  // 9 i binær: 00001001
-    int y = 18; // 18 i binær: 00010010
+    // << = left shift
+    // >> = right shift
+    int x = 9;
+    int y = 18;
 
     // AND
     // Brukes for å sette bestemte biter til 0.
