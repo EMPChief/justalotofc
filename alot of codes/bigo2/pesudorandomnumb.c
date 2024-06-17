@@ -14,9 +14,9 @@ int main()
    srand(time(0));
 
    // Antall tilfeldige tall som skal genereres
-   const int numberOfRandomNumbers = 3;
+   const int numberOfRandomNumbers = 9;
    const int minValue = 1;
-   const int maxValue = 60;
+   const int maxValue = 120;
 
    // Genererer og skriver ut tre tilfeldige tall mellom 1 og 60
    for (int currentIndex = 0; currentIndex < numberOfRandomNumbers; currentIndex++)
