@@ -25,21 +25,23 @@ int main()
         if (userGuess > correctAnswer)
         {
             printf("Too high. Try again.\n");
+            printf("You guessed %d\n", userGuess);
         }
         else if (userGuess < correctAnswer)
         {
             printf("Too low. Try again.\n");
+            printf("You guessed %d\n", userGuess);
         }
         else
         {
-            printf("Correct! You guessed it in %d guesses.\n", numberOfGuesses + 1);
+            printf("Correct! You guessed it in %d attempts.\n", numberOfGuesses + 1);
         }
         numberOfGuesses++;
     } while (userGuess != correctAnswer);
 
     printf("**************\n");
     printf("Answer: %d\n", correctAnswer);
-    printf("Total guesses: %d\n", numberOfGuesses);
+    printf("Total attempts: %d\n", numberOfGuesses);
     printf("**************\n");
 
     return 0;
