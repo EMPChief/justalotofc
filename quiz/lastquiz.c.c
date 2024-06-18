@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <ctype.h>
 
 #define NUM_ANSWER_OPTIONS 4
 
@@ -80,6 +81,7 @@ int main()
         char user_answer;
         printf("Your answer (A, B, C, D): ");
         scanf(" %c", &user_answer);
+        user_answer = toupper(user_answer);
 
         int user_answer_index = user_answer - 'A';
         if (user_answer_index < 0 || user_answer_index >= NUM_ANSWER_OPTIONS)
@@ -167,6 +169,7 @@ int get_user_input()
 {
     int input;
     scanf("%d", &input);
+    
     return input;
 }
 
