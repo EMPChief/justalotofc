@@ -10,11 +10,22 @@ int subtract(int a, int b);
 int multiply(int a, int b);
 int divide(int a, int b);
 int modulus(int a, int b);
-int power(int a, int b); 
+int power(int a, int b);
 int factorial(int a);
 
 int main()
 {
+    // pointer = a "variable-like" reference that holds a memory address to another variable, array, etc.
+    //           some tasks are performed more easily with pointers
+    //           * = indirection operator (value at address)
+
+    // malloc is used to allocate memory in the heap for variables that need to
+    // be used dynamically. It returns a pointer to the allocated memory block,
+    // or NULL if the allocation fails due to insufficient memory.
+
+    // free is used to release the memory allocated by malloc, calloc, or realloc.
+    // It deallocates the memory pointed to by the pointer, making it available
+    // for further allocation.
     float *number1 = (float *)malloc(sizeof(float));
     float *number2 = (float *)malloc(sizeof(float));
     float *result = (float *)malloc(sizeof(float));
