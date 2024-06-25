@@ -25,22 +25,23 @@ int main()
     srand(time(NULL));
 
     // Definerer en array av QuizQuestion-strukturer
-    QuizQuestion quiz_questions[] = {
-        {"What is the capital of France?", {"Paris", "London", "Berlin", "Rome"}, 0},
-        {"What is the capital of Germany?", {"Paris", "London", "Berlin", "Rome"}, 2},
-        {"What is the capital of Italy?", {"Paris", "London", "Berlin", "Rome"}, 3},
-        {"What was the first browser to use JavaScript?", {"Internet Explorer", "Netscape", "Safari", "Opera"}, 1},
-        {"What was the first Linux operating system?", {"Unix", "Windows", "Linux", "MacOS"}, 2},
-        {"What was the first widely-used open-source database?", {"MySQL", "PostgreSQL", "MongoDB", "SQLite"}, 0},
-        {"What was the first electronic database management system?", {"IDS", "IMS", "Oracle", "Ingres"}, 0},
-        {"What is the name of the very first operating system?", {"GM-NAA I/O", "Windows", "Linux", "MacOS"}, 0},
-        {"What is the name of the very first programming language?", {"C", "Java", "Python", "Plankalkul"}, 3},
-        {"Which planet is known as the Red Planet?", {"Earth", "Mars", "Jupiter", "Saturn"}, 1},
-        {"What is the chemical symbol for water?", {"O2", "H2O", "CO2", "NaCl"}, 1},
-        {"Who wrote 'To Kill a Mockingbird'?", {"Harper Lee", "J.K. Rowling", "Ernest Hemingway", "Mark Twain"}, 0},
-        {"What is the largest mammal in the world?", {"Elephant", "Blue Whale", "Giraffe", "Great White Shark"}, 1},
-        {"What is the smallest prime number?", {"0", "1", "2", "3"}, 2},
-        {"Which element has the atomic number 1?", {"Hydrogen", "Helium", "Oxygen", "Carbon"}, 0}};
+    QuizQuestion quiz_questions[] =
+        {
+            {"What is the capital of France?", {"Paris", "London", "Berlin", "Rome"}, 0},
+            {"What is the capital of Germany?", {"Paris", "London", "Berlin", "Rome"}, 2},
+            {"What is the capital of Italy?", {"Paris", "London", "Berlin", "Rome"}, 3},
+            {"What was the first browser to use JavaScript?", {"Internet Explorer", "Netscape", "Safari", "Opera"}, 1},
+            {"What was the first Linux operating system?", {"Unix", "Windows", "Linux", "MacOS"}, 2},
+            {"What was the first widely-used open-source database?", {"MySQL", "PostgreSQL", "MongoDB", "SQLite"}, 0},
+            {"What was the first electronic database management system?", {"IDS", "IMS", "Oracle", "Ingres"}, 0},
+            {"What is the name of the very first operating system?", {"GM-NAA I/O", "Windows", "Linux", "MacOS"}, 0},
+            {"What is the name of the very first programming language?", {"C", "Java", "Python", "Plankalkul"}, 3},
+            {"Which planet is known as the Red Planet?", {"Earth", "Mars", "Jupiter", "Saturn"}, 1},
+            {"What is the chemical symbol for water?", {"O2", "H2O", "CO2", "NaCl"}, 1},
+            {"Who wrote 'To Kill a Mockingbird'?", {"Harper Lee", "J.K. Rowling", "Ernest Hemingway", "Mark Twain"}, 0},
+            {"What is the largest mammal in the world?", {"Elephant", "Blue Whale", "Giraffe", "Great White Shark"}, 1},
+            {"What is the smallest prime number?", {"0", "1", "2", "3"}, 2},
+            {"Which element has the atomic number 1?", {"Hydrogen", "Helium", "Oxygen", "Carbon"}, 0}};
 
     // Sjekker hvor mange spørsmål som er i arrayen
     int num_quiz_questions = sizeof(quiz_questions) / sizeof(quiz_questions[0]);
@@ -169,7 +170,7 @@ int get_user_input()
 {
     int input;
     scanf("%d", &input);
-    
+
     return input;
 }
 
