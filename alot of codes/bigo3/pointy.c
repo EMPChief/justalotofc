@@ -8,9 +8,36 @@ void dynamicArrayExample();
 void arrayPointerExample();
 
 int main() {
-    // pointer = a "variable-like" reference that holds a memory address to another variable, array, etc.
-    //           some tasks are performed more easily with pointers
-    //           * = indirection operator (value at address)
+    // A pointer is a variable  stores the memory address of another variable, 
+    // array, or function. Pointers athatre useful for dynamic memory management, 
+    // array manipulation, and function argument passing.
+    // The * operator is called the indirection or dereference operator, 
+    // and it is used to access the value stored at the memory address a pointer refers to.
+
+    // malloc (memory allocation) is a function used to allocate a specified amount 
+    // of memory in the heap. It returns a pointer to the beginning of the allocated 
+    // memory block, or NULL if the allocation fails due to insufficient memory.
+    // Syntax: void* malloc(size_t size);
+
+    // calloc (contiguous allocation) is a function used to allocate memory for an array 
+    // of elements, initializing all bytes to zero. It returns a pointer to the allocated 
+    // memory block, or NULL if the allocation fails.
+    // Syntax: void* calloc(size_t num, size_t size);
+
+    // realloc (reallocation) is a function used to resize a previously allocated memory 
+    // block. It returns a pointer to the newly allocated memory, which may be at a 
+    // different location, or NULL if the reallocation fails.
+    // Syntax: void* realloc(void* ptr, size_t new_size);
+
+    // aligned_alloc is a function used to allocate memory aligned to a specified boundary.
+    // It returns a pointer to the allocated memory block, or NULL if the allocation fails.
+    // Syntax: void* aligned_alloc(size_t alignment, size_t size);
+
+    // free is a function used to deallocate memory that was previously allocated 
+    // using malloc, calloc, or realloc. This releases the memory back to the heap 
+    // for future use. After calling free, the pointer becomes invalid and should 
+    // not be used until it is reallocated.
+    // Syntax: void free(void* ptr);
     
     // Using pointers to swap two variables
     int a = 5, b = 10;

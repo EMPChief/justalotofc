@@ -5,16 +5,16 @@
 
 #define NUM_ANSWER_OPTIONS 4
 
-// Definerer en struktur for å holde et quizspørsmål og dens svaralternativer
+// Defines a structure to hold a quiz question and its answer options
 typedef struct
 {
     char *question;
-    char *answer_options[NUM_ANSWER_OPTIONS];
+    char **answer_options;
     int correct_answer_index;
 } QuizQuestion;
 
 void shuffle(int *array, int array_size);
-void shuffle_options(char *options[], int correct_answer_index, int *new_correct_index);
+void shuffle_options(char **options, int correct_answer_index, int *new_correct_index);
 void display_question(QuizQuestion question, int *new_correct_index);
 int get_user_input();
 void show_score(int score, int total_questions);
@@ -24,59 +24,67 @@ int main()
 {
     srand(time(NULL));
 
-    // Definerer en array av QuizQuestion-strukturer
+    // Defines an array of QuizQuestion structures
     QuizQuestion quiz_questions[] =
         {
-            {"What is the capital of France?", {"Paris", "London", "Berlin", "Rome"}, 0},
-            {"What is the capital of Germany?", {"Paris", "London", "Berlin", "Rome"}, 2},
-            {"What is the capital of Italy?", {"Paris", "London", "Berlin", "Rome"}, 3},
-            {"What was the first browser to use JavaScript?", {"Internet Explorer", "Netscape", "Safari", "Opera"}, 1},
-            {"What was the first Linux operating system?", {"Unix", "Windows", "Linux", "MacOS"}, 2},
-            {"What was the first widely-used open-source database?", {"MySQL", "PostgreSQL", "MongoDB", "SQLite"}, 0},
-            {"What was the first electronic database management system?", {"IDS", "IMS", "Oracle", "Ingres"}, 0},
-            {"What is the name of the very first operating system?", {"GM-NAA I/O", "Windows", "Linux", "MacOS"}, 0},
-            {"What is the name of the very first programming language?", {"C", "Java", "Python", "Plankalkul"}, 3},
-            {"Which planet is known as the Red Planet?", {"Earth", "Mars", "Jupiter", "Saturn"}, 1},
-            {"What is the chemical symbol for water?", {"O2", "H2O", "CO2", "NaCl"}, 1},
-            {"Who wrote 'To Kill a Mockingbird'?", {"Harper Lee", "J.K. Rowling", "Ernest Hemingway", "Mark Twain"}, 0},
-            {"What is the largest mammal in the world?", {"Elephant", "Blue Whale", "Giraffe", "Great White Shark"}, 1},
-            {"What is the smallest prime number?", {"0", "1", "2", "3"}, 2},
-            {"Which element has the atomic number 1?", {"Hydrogen", "Helium", "Oxygen", "Carbon"}, 0}};
+            {"What is the capital of France?", (char *[]){"Paris", "London", "Berlin", "Rome"}, 0},
+            {"What is the capital of Germany?", (char *[]){"Paris", "London", "Berlin", "Rome"}, 2},
+            {"What is the capital of Italy?", (char *[]){"Paris", "London", "Berlin", "Rome"}, 3},
+            {"What was the first browser to use JavaScript?", (char *[]){"Internet Explorer", "Netscape", "Safari", "Opera"}, 1},
+            {"What was the first Linux operating system?", (char *[]){"Unix", "Windows", "Linux", "MacOS"}, 2},
+            {"What was the first widely-used open-source database?", (char *[]){"MySQL", "PostgreSQL", "MongoDB", "SQLite"}, 0},
+            {"What was the first electronic database management system?", (char *[]){"IDS", "IMS", "Oracle", "Ingres"}, 0},
+            {"What is the name of the very first operating system?", (char *[]){"GM-NAA I/O", "Windows", "Linux", "MacOS"}, 0},
+            {"What is the name of the very first programming language?", (char *[]){"C", "Java", "Python", "Plankalkul"}, 3},
+            {"Which planet is known as the Red Planet?", (char *[]){"Earth", "Mars", "Jupiter", "Saturn"}, 1},
+            {"What is the chemical symbol for water?", (char *[]){"O2", "H2O", "CO2", "NaCl"}, 1},
+            {"Who wrote 'To Kill a Mockingbird'?", (char *[]){"Harper Lee", "J.K. Rowling", "Ernest Hemingway", "Mark Twain"}, 0},
+            {"What is the largest mammal in the world?", (char *[]){"Elephant", "Blue Whale", "Giraffe", "Great White Shark"}, 1},
+            {"What is the smallest prime number?", (char *[]){"0", "1", "2", "3"}, 2},
+            {"Which element has the atomic number 1?", (char *[]){"Hydrogen", "Helium", "Oxygen", "Carbon"}, 0}};
 
-    // Sjekker hvor mange spørsmål som er i arrayen
+    // Checks how many questions are in the array
     int num_quiz_questions = sizeof(quiz_questions) / sizeof(quiz_questions[0]);
-    int question_order[num_quiz_questions];
+    int *question_order = malloc(num_quiz_questions * sizeof(int));
 
-    // Initialiserer rekkefølgen til quizspørsmålene
+    if (question_order == NULL)
+    {
+        fprintf(stderr, "Memory allocation failed\n");
+        return 1;
+    }
+
+    // Initializes the order of the quiz questions
     initialize_quiz_order(question_order, num_quiz_questions);
-    // Blander rekkefølgen til quizspørsmålene
-
+    // Shuffles the order of the quiz questions
     shuffle(question_order, num_quiz_questions);
-    // Velkommelding til quizen
+
+    // Welcome message for the quiz
     printf("Welcome to my quiz program\n");
     printf("> Press 7 to start\n");
     printf("> Press 0 to quit\n");
 
-    // Tar brukerens inndata
+    // Takes user input
     int user_input = get_user_input();
     if (user_input == 0)
     {
         printf("Thanks for playing\n");
+        free(question_order);
         return 0;
     }
     else if (user_input != 7)
     {
         printf("Invalid input\n");
+        free(question_order);
         return 1;
     }
 
     int user_score = 0;
-    // for loop så går gjennom hvert quizspørsmål
+    // Loop through each quiz question
     for (int question_index = 0; question_index < num_quiz_questions; question_index++)
     {
         int current_question_index = question_order[question_index];
         int new_correct_index;
-        // Viser spørsmålet og svaralternativene
+        // Displays the question and answer options
         display_question(quiz_questions[current_question_index], &new_correct_index);
 
         char user_answer;
@@ -91,7 +99,7 @@ int main()
             continue;
         }
 
-        // Sjekker om svaret er riktig og øker brukerens poengsum
+        // Checks if the answer is correct and increases the user's score
         if (user_answer_index == new_correct_index)
         {
             printf("Correct! Your answer is right: %s\n", quiz_questions[current_question_index].answer_options[user_answer_index]);
@@ -103,12 +111,14 @@ int main()
         }
         printf("Your score so far is %d\n", user_score);
     }
-    // Viser brukerens endelige poengsum
+    // Displays the user's final score
     show_score(user_score, num_quiz_questions);
+
+    free(question_order);
     return 0;
 }
 
-// Funksjon for å blande rekkefølgen til et array
+// Function to shuffle an array
 void shuffle(int *array, int array_size)
 {
     if (array_size > 1)
@@ -123,8 +133,8 @@ void shuffle(int *array, int array_size)
     }
 }
 
-// Funksjon for å blande rekkefølgen på svaralternativene
-void shuffle_options(char *options[], int correct_answer_index, int *new_correct_index)
+// Function to shuffle an array
+void shuffle_options(char **options, int correct_answer_index, int *new_correct_index)
 {
     char *temp_options[NUM_ANSWER_OPTIONS];
     int order[NUM_ANSWER_OPTIONS];
@@ -147,10 +157,16 @@ void shuffle_options(char *options[], int correct_answer_index, int *new_correct
     }
 }
 
-// Funksjon for å vise et spørsmål og dets svaralternativer
+// Function to display the question and answer options
 void display_question(QuizQuestion question, int *new_correct_index)
 {
-    char *shuffled_options[NUM_ANSWER_OPTIONS];
+    char **shuffled_options = malloc(NUM_ANSWER_OPTIONS * sizeof(char *));
+    if (shuffled_options == NULL)
+    {
+        fprintf(stderr, "Memory allocation failed\n");
+        exit(1);
+    }
+
     for (int index = 0; index < NUM_ANSWER_OPTIONS; index++)
     {
         shuffled_options[index] = question.answer_options[index];
@@ -163,9 +179,11 @@ void display_question(QuizQuestion question, int *new_correct_index)
     {
         printf("%c. %s\n", 'A' + option_index, shuffled_options[option_index]);
     }
+
+    free(shuffled_options);
 }
 
-// Funksjon for å hente brukerens inndata
+// Function to get user input
 int get_user_input()
 {
     int input;
@@ -174,14 +192,14 @@ int get_user_input()
     return input;
 }
 
-// Funksjon for å vise brukerens poengsum
+// Function to display the user's score
 void show_score(int score, int total_questions)
 {
     printf("Thanks for playing\n");
     printf("Your final score is %d out of %d (%.2f%%)\n", score, total_questions, (score / (float)total_questions) * 100);
 }
 
-// Funksjon for å initialisere rekkefølgen til quizspørsmålene
+// Function to initialize the quiz order
 void initialize_quiz_order(int *order, int num_questions)
 {
     for (int index = 0; index < num_questions; index++)

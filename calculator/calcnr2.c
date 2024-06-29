@@ -12,6 +12,8 @@ int divide(int a, int b);
 int modulus(int a, int b);
 int power(int a, int b);
 int factorial(int a);
+void release_memory(float *ptr1, float *ptr2, float *ptr3);
+
 
 
 int main()
@@ -36,6 +38,10 @@ int main()
     // block. It returns a pointer to the newly allocated memory, which may be at a 
     // different location, or NULL if the reallocation fails.
     // Syntax: void* realloc(void* ptr, size_t new_size);
+
+    // aligned_alloc is a function used to allocate memory aligned to a specified boundary.
+    // It returns a pointer to the allocated memory block, or NULL if the allocation fails.
+    // Syntax: void* aligned_alloc(size_t alignment, size_t size);
 
     // free is a function used to deallocate memory that was previously allocated 
     // using malloc, calloc, or realloc. This releases the memory back to the heap 
@@ -71,9 +77,8 @@ int main()
         if (*number1 < 0 || (int)*number1 != *number1)
         {
             printf("Invalid input! Factorial is only defined for non-negative integers.\n");
-            free(number1);
-            free(number2);
-            free(result);
+            release_memory(number1, number2, result);
+
             return 1;
         }
     }
@@ -108,9 +113,7 @@ int main()
         else
         {
             printf("Error! Division by zero.\n");
-            free(number1);
-            free(number2);
-            free(result);
+            release_memory(number1, number2, result);
             return 1;
         }
     }
@@ -123,9 +126,7 @@ int main()
         else
         {
             printf("Error! Division by zero.\n");
-            free(number1);
-            free(number2);
-            free(result);
+            release_memory(number1, number2, result);
             return 1;
         }
     }
@@ -140,20 +141,22 @@ int main()
     else
     {
         printf("Invalid operation\n");
-        free(number1);
-        free(number2);
-        free(result);
+        release_memory(number1, number2, result);
         return 1;
     }
 
     printf("Result of %s operation: %.2f\n", operation, *result);
 
     // Free allocated memory
-    free(number1);
-    free(number2);
-    free(result);
+    release_memory(number1, number2, result);
 
     return 0;
+}
+void release_memory(float *ptr1, float *ptr2, float *ptr3)
+{
+    free(ptr1);
+    free(ptr2);
+    free(ptr3);
 }
 
 int add(int a, int b)
