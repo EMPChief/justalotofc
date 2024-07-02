@@ -160,12 +160,7 @@ void shuffle_options(char **options, int correct_answer_index, int *new_correct_
 // Function to display the question and answer options
 void display_question(QuizQuestion question, int *new_correct_index)
 {
-    char **shuffled_options = malloc(NUM_ANSWER_OPTIONS * sizeof(char *));
-    if (shuffled_options == NULL)
-    {
-        fprintf(stderr, "Memory allocation failed\n");
-        exit(1);
-    }
+    char *shuffled_options[NUM_ANSWER_OPTIONS];
 
     for (int index = 0; index < NUM_ANSWER_OPTIONS; index++)
     {
@@ -179,15 +174,17 @@ void display_question(QuizQuestion question, int *new_correct_index)
     {
         printf("%c. %s\n", 'A' + option_index, shuffled_options[option_index]);
     }
-
-    free(shuffled_options);
 }
 
 // Function to get user input
 int get_user_input()
 {
     int input;
-    scanf("%d", &input);
+    while (scanf("%d", &input) != 1)
+    {
+        while (getchar() != '\n');
+        printf("Invalid input. Please enter a number: ");
+    }
 
     return input;
 }

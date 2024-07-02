@@ -1,0 +1,9 @@
+/*Toralizer.h*/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+
+#define PROXY_IP "127.0.0.1"
+#define PROXY_PORT 9050
+
