@@ -2,6 +2,7 @@
     "files.associations": {
         "stdio.h": "c",
         "compreadwrite": "c",
-        "toralizer.h": "c"
+        "toralizer.h": "c",
+        "inet.h": "c"
     }
 }

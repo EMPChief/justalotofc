@@ -10,8 +10,8 @@ The SOCKS4 protocol is a simple, client-server protocol that permits a client to
 
 The client-server protocol and the roles of the client and server are described in [section 4](https://tools.ietf.org/html/rfc1928#section-4) of the RFC. The client sends a request to the server in the following format:
 
-| Field     | Length  | Description       |
-|-----------|---------|-------------------|
+| Field     | Length  | Description          |
+|-----------|---------|----------------------|
 | `VN`      | 1 byte  | SOCKS version number |
 | `CD`      | 1 byte  | SOCKS command code   |
 | `DSTPORT` | 2 bytes | Destination port     |
