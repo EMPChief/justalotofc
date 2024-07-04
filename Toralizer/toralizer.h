@@ -1,10 +1,13 @@
-/*Toralizer.h*/
+#ifndef TORALIZER_H
+#define TORALIZER_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
+#include <netinet/in.h>
 
 #define PROXY_IP "127.0.0.1"
 #define PROXY_PORT 9050
@@ -29,3 +32,6 @@ struct proxy_response{
     int32 destination_address;
 };
 typedef struct proxy_response Response;
+
+
+#endif
