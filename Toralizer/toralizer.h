@@ -1,8 +1,4 @@
 /* toralizer.h */
-
-#ifndef TORALIZER_H
-#define TORALIZER_H
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -10,6 +6,7 @@
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <dlfcn.h>
 
 // Proxy server defaults
 #define PROXY_IP "127.0.0.1"
@@ -28,28 +25,23 @@ typedef unsigned short int uint16_t;
 typedef unsigned int uint32_t;
 
 // Structure to hold a proxy request
-struct ProxyRequest
-{
-    uint8_t version;              // Version of the request (e.g., SOCKS version)
-    uint8_t command;              // Command type (e.g., CONNECT)
-    uint16_t destination_port;    // Destination port number (in network byte order)
-    uint32_t destination_address; // Destination IP address (in network byte order)
-    unsigned char userid[8];      // User ID (null-terminated if shorter than 8 bytes)
-};
-typedef struct ProxyRequest Request;
+typedef struct ProxyRequest {
+    uint8_t version;               // Version of the request (e.g., SOCKS version)
+    uint8_t command;               // Command type (e.g., CONNECT)
+    uint16_t destination_port;     // Destination port number (in network byte order)
+    uint32_t destination_address;  // Destination IP address (in network byte order)
+    unsigned char userid[8];       // User ID (null-terminated if shorter than 8 bytes)
+} ProxyRequest;
 
 // Structure to hold a proxy response
-struct ProxyResponse
-{
-    uint8_t version;              // Version of the response (e.g., SOCKS version)
-    uint8_t command;              // Command type (e.g., SUCCESS, FAILURE)
-    uint16_t destination_port;    // Destination port number (in network byte order)
-    uint32_t destination_address; // Destination IP address (in network byte order)
-};
-typedef struct ProxyResponse Response;
+typedef struct ProxyResponse {
+    uint8_t version;               // Version of the response (e.g., SOCKS version)
+    uint8_t command;               // Command type (e.g., SUCCESS, FAILURE)
+    uint16_t destination_port;     // Destination port number (in network byte order)
+    uint32_t destination_address;  // Destination IP address (in network byte order)
+} ProxyResponse;
 
 // Function prototypes
-Request *create_proxy_request(const char *destination_address, const int destination_port);
-int main(int argc, char *argv[]);
+ProxyRequest *create_proxy_request(const char *destination_ip, int destination_port);
+int connect(int socket_file_descriptor, const struct sockaddr *address, socklen_t address_length);
 
-#endif // TORALIZER_H
