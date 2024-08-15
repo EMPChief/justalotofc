@@ -5,7 +5,8 @@
         "toralizer.h": "c",
         "inet.h": "c",
         "in.h": "c",
-        "socket.h": "c"
+        "socket.h": "c",
+        "unistd.h": "c"
     },
     "cSpell.words": [
         "servaddr"
