@@ -24,6 +24,11 @@ int connect(int socket_file_descriptor, const struct sockaddr *address, socklen_
 
     // Retrieve the original connect function using dlsym
     original_connect_function = dlsym(RTLD_NEXT, "connect");
+    if (!original_connect_function) {
+        fprintf(stderr, "Error: Could not retrieve the original connect function: %s\n", dlerror());
+        return -1;
+    }
+
 
     // Cast the address structure to sockaddr_in to extract the IP and port
     ipv4_address = (struct sockaddr_in *)address;
@@ -90,6 +95,11 @@ int connect(int socket_file_descriptor, const struct sockaddr *address, socklen_
     }
 
     printf("Successfully connected to the destination via the proxy\n");
+
+    dup2(socket_file_descriptor, STDOUT_FILENO);
+    
+
+    close(socket_file_descriptor);
 
     // Free the proxy request
     free(proxy_request);
