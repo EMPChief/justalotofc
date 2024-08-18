@@ -13,39 +13,11 @@ int modulus(int a, int b);
 int power(int a, int b);
 int factorial(int a);
 
-
 int main()
 {
-    // A pointer is a variable  stores the memory address of another variable, 
-    // array, or function. Pointers athatre useful for dynamic memory management, 
-    // array manipulation, and function argument passing.
-    // The * operator is called the indirection or dereference operator, 
-    // and it is used to access the value stored at the memory address a pointer refers to.
-
-    // malloc (memory allocation) is a function used to allocate a specified amount 
-    // of memory in the heap. It returns a pointer to the beginning of the allocated 
-    // memory block, or NULL if the allocation fails due to insufficient memory.
-    // Syntax: void* malloc(size_t size);
-
-    // calloc (contiguous allocation) is a function used to allocate memory for an array 
-    // of elements, initializing all bytes to zero. It returns a pointer to the allocated 
-    // memory block, or NULL if the allocation fails.
-    // Syntax: void* calloc(size_t num, size_t size);
-
-    // realloc (reallocation) is a function used to resize a previously allocated memory 
-    // block. It returns a pointer to the newly allocated memory, which may be at a 
-    // different location, or NULL if the reallocation fails.
-    // Syntax: void* realloc(void* ptr, size_t new_size);
-
-    // free is a function used to deallocate memory that was previously allocated 
-    // using malloc, calloc, or realloc. This releases the memory back to the heap 
-    // for future use. After calling free, the pointer becomes invalid and should 
-    // not be used until it is reallocated.
-    // Syntax: void free(void* ptr);
-
-    float *number1 = (float *)malloc(sizeof(float));
-    float *number2 = (float *)malloc(sizeof(float));
-    float *result = (float *)malloc(sizeof(float));
+    int *number1 = (int *)malloc(sizeof(int));
+    int *number2 = (int *)malloc(sizeof(int));
+    int *result = (int *)malloc(sizeof(int));
     char operation[10];
 
     if (number1 == NULL || number2 == NULL || result == NULL)
@@ -55,7 +27,13 @@ int main()
     }
 
     printf("What operation do you want to perform? (add, subtract, multiply, divide, modulus, power, factorial)\n");
-    scanf("%s", operation);
+    if (scanf("%s", operation) != 1) {
+        printf("Failed to read the operation!\n");
+        free(number1);
+        free(number2);
+        free(result);
+        return 1;
+    }
 
     // Convert operation to uppercase
     for (int index = 0; operation[index]; index++)
@@ -67,8 +45,14 @@ int main()
     if (strcmp(operation, "FACTORIAL") == 0)
     {
         printf("Enter the number: ");
-        scanf("%f", number1);
-        if (*number1 < 0 || (int)*number1 != *number1)
+        if (scanf("%d", number1) != 1) {
+            printf("Failed to read the number!\n");
+            free(number1);
+            free(number2);
+            free(result);
+            return 1;
+        }
+        if (*number1 < 0)
         {
             printf("Invalid input! Factorial is only defined for non-negative integers.\n");
             free(number1);
@@ -80,30 +64,42 @@ int main()
     else
     {
         printf("Enter the first number: ");
-        scanf("%f", number1);
+        if (scanf("%d", number1) != 1) {
+            printf("Failed to read the first number!\n");
+            free(number1);
+            free(number2);
+            free(result);
+            return 1;
+        }
 
         printf("Enter the second number: ");
-        scanf("%f", number2);
+        if (scanf("%d", number2) != 1) {
+            printf("Failed to read the second number!\n");
+            free(number1);
+            free(number2);
+            free(result);
+            return 1;
+        }
     }
 
-    // Perform operation using switch
+    // Perform operation using if-else
     if (strcmp(operation, "ADD") == 0)
     {
-        *result = add((int)*number1, (int)*number2);
+        *result = add(*number1, *number2);
     }
     else if (strcmp(operation, "SUBTRACT") == 0)
     {
-        *result = subtract((int)*number1, (int)*number2);
+        *result = subtract(*number1, *number2);
     }
     else if (strcmp(operation, "MULTIPLY") == 0)
     {
-        *result = multiply((int)*number1, (int)*number2);
+        *result = multiply(*number1, *number2);
     }
     else if (strcmp(operation, "DIVIDE") == 0)
     {
         if (*number2 != 0)
         {
-            *result = divide((int)*number1, (int)*number2);
+            *result = divide(*number1, *number2);
         }
         else
         {
@@ -118,7 +114,7 @@ int main()
     {
         if (*number2 != 0)
         {
-            *result = modulus((int)*number1, (int)*number2);
+            *result = modulus(*number1, *number2);
         }
         else
         {
@@ -131,11 +127,11 @@ int main()
     }
     else if (strcmp(operation, "POWER") == 0)
     {
-        *result = power((int)*number1, (int)*number2);
+        *result = power(*number1, *number2);
     }
     else if (strcmp(operation, "FACTORIAL") == 0)
     {
-        *result = factorial((int)*number1);
+        *result = factorial(*number1);
     }
     else
     {
@@ -146,7 +142,7 @@ int main()
         return 1;
     }
 
-    printf("Result of %s operation: %.2f\n", operation, *result);
+    printf("Result of %s operation: %d\n", operation, *result);
 
     // Free allocated memory
     free(number1);
@@ -183,7 +179,7 @@ int modulus(int a, int b)
 
 int power(int a, int b)
 {
-    return pow(a, b);
+    return (int)pow(a, b);
 }
 
 int factorial(int a)
