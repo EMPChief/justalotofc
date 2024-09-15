@@ -1,17 +1,23 @@
 /* Toralizer.c */
 #include "toralizer.h"
 
-// Function prototype for the overridden connect function
-int connect(int socket_file_descriptor, const struct sockaddr *address, socklen_t address_length);
+// Global variable for the original connect function
+static int (*original_connect_function)(int, const struct sockaddr *, socklen_t) = NULL;
 
-// Function prototype for creating a proxy request
-ProxyRequest *create_proxy_request(const char *destination_ip, int destination_port);
+// Initialize the original_connect_function when the library is loaded
+__attribute__((constructor)) static void init(void)
+{
+    original_connect_function = dlsym(RTLD_NEXT, "connect");
+    if (!original_connect_function)
+    {
+        fprintf(stderr, "Error: Could not retrieve the original connect function: %s\n", dlerror());
+        exit(1);
+    }
+}
 
 // Override the connect function
 int connect(int socket_file_descriptor, const struct sockaddr *address, socklen_t address_length)
 {
-    // Variables initialized at the top
-    int (*original_connect_function)(int, const struct sockaddr *, socklen_t) = NULL;
     struct sockaddr_in *ipv4_address = NULL;
     char ip_address_buffer[INET_ADDRSTRLEN] = {0};
     int destination_port = 0;
@@ -21,14 +27,6 @@ int connect(int socket_file_descriptor, const struct sockaddr *address, socklen_
     char response_buffer[RESPONSE_SIZE] = {0};
     ssize_t bytes_received = 0;
     ProxyResponse *proxy_response = NULL;
-
-    // Retrieve the original connect function using dlsym
-    original_connect_function = dlsym(RTLD_NEXT, "connect");
-    if (!original_connect_function) {
-        fprintf(stderr, "Error: Could not retrieve the original connect function: %s\n", dlerror());
-        return -1;
-    }
-
 
     // Cast the address structure to sockaddr_in to extract the IP and port
     ipv4_address = (struct sockaddr_in *)address;
@@ -67,9 +65,9 @@ int connect(int socket_file_descriptor, const struct sockaddr *address, socklen_
 
     // Send the proxy request to the server
     bytes_sent = write(socket_file_descriptor, proxy_request, REQUEST_SIZE);
-    if (bytes_sent < 0)
+    if (bytes_sent < 0 || bytes_sent != REQUEST_SIZE)
     {
-        perror("Error: Write to proxy server failed");
+        perror("Error: Write to proxy server failed or incomplete");
         free(proxy_request);
         return -1;
     }
@@ -79,9 +77,9 @@ int connect(int socket_file_descriptor, const struct sockaddr *address, socklen_
     // Read the response from the proxy
     memset(response_buffer, 0, RESPONSE_SIZE);
     bytes_received = read(socket_file_descriptor, response_buffer, RESPONSE_SIZE);
-    if (bytes_received < 0)
+    if (bytes_received < 0 || bytes_received != RESPONSE_SIZE)
     {
-        perror("Error: Read from proxy server failed");
+        perror("Error: Read from proxy server failed or incomplete");
         free(proxy_request);
         return -1;
     }
@@ -96,22 +94,16 @@ int connect(int socket_file_descriptor, const struct sockaddr *address, socklen_
 
     printf("Successfully connected to the destination via the proxy\n");
 
-    dup2(socket_file_descriptor, STDOUT_FILENO);
-    
-
-    close(socket_file_descriptor);
-
     // Free the proxy request
     free(proxy_request);
 
-    // Return success
-    return 0;
+    // Return the result of the original connect function
+    return 0; // We return 0 here because we've already connected to the proxy
 }
 
 // Function to create a proxy request
 ProxyRequest *create_proxy_request(const char *destination_ip, int destination_port)
 {
-    // Variables initialized at the top
     ProxyRequest *proxy_request = NULL;
 
     // Allocate memory for the proxy request
